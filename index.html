@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FutureMail by Matt</title>
+    <style>
+      body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #D0E4FE;
+    color: #000;
+    margin: 20px;
+    padding: 20px;
+    }
+
+    h1 {
+        color: #800000;
+        font-size: 28px;
+        text-decoration: underline;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #content {
+        max-width: 640px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #FFFFFF;
+        border: 2px dashed #000080;
+        box-shadow: 3px 3px #888888;
+    }
+
+    .description {
+        font-size: 16px;
+        color: #000080;
+        margin-bottom: 30px;
+        text-align: justify;
+        line-height: 1.5;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #800000;
+    }
+
+    input[type="text"], input[type="email"], textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-top: 5px;
+        border: 2px solid #800000;
+        background-color: #F5F5F5;
+    }
+
+    button {
+        display: block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: #000080;
+        color: #FFFFFF;
+        border: 2px solid #800000;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #800000;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div id="content">
+      <h1>FutureMail</h1>
+      <p class="description">
+        Hello! I'm Matt from London. Use this service to send an email that'll
+        be delivered randomly from one week to a year from now. Enjoy the
+        suspense!
+      </p>
+
+      <form id="emailForm">
+        <label for="recipient">Recipient's Email:</label>
+        <input type="email" id="recipient" required />
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required />
+
+        <label for="message">Message:</label>
+        <textarea rows="5" id="message" required></textarea>
+
+        <button type="submit">Send to the Future!</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("emailForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert(
+            "Your email is set to be delivered in the future! Note: This is a mock function. To actually send emails, backend integration is required."
+          );
+        });
+    </script>
+  </body>
+</html>
