@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FutureMail by Matt</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
       body {
     font-family: 'Courier New', Courier, monospace;
@@ -96,14 +97,31 @@
     </div>
 
     <script>
-      document
-        .getElementById("emailForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          alert(
-            "Your email is set to be delivered in the future! Note: This is a mock function. To actually send emails, backend integration is required."
-          );
-        });
-    </script>
+      $(document).ready(function(){
+          $('#emailForm').on('submit', function(e){
+              e.preventDefault();
+  
+              var formData = {
+                  recipient: $('#recipient').val(),
+                  subject: $('#subject').val(),
+                  message: $('#message').val()
+              };
+  
+              $.ajax({
+                  type: 'POST',
+                  url: '/send',
+                  data: JSON.stringify(formData),
+                  contentType: 'application/json',
+                  success: function(response) {
+                      alert('Your email is set to be delivered on ' + response.delivery_date);
+                  },
+                  error: function(error) {
+                      alert('Error submitting the form. Please try again.');
+                  }
+              });
+          });
+      });
+  </script>
+  
   </body>
 </html>

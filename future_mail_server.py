@@ -5,10 +5,17 @@ import random
 import smtplib
 from email.message import EmailMessage
 import time
+from flask_cors import CORS
+from flask import render_template
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+email_password = os.environ.get('EMAIL_PASSWORD')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///emails.db'
-
+CORS(app)
 db = SQLAlchemy(app)
 
 class FutureMail(db.Model):
@@ -18,6 +25,10 @@ class FutureMail(db.Model):
     message = db.Column(db.Text, nullable=False)
     delivery_date = db.Column(db.DateTime, nullable=False)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/send', methods=['POST'])
 def send_email():
     data = request.json
@@ -26,8 +37,9 @@ def send_email():
     message_body = data['message']
 
     # Calculate random delivery date between 1 week to 1 year from now
-    random_days = random.randint(7, 365)
-    delivery_date = datetime.now() + timedelta(days=random_days)
+    # random_days = random.randint(7, 365)
+    random_seconds = random.randint(1, 60)
+    delivery_date = datetime.now() + timedelta(seconds=random_seconds)
 
     # Store the email data in the database
     future_mail = FutureMail(recipient=recipient, subject=subject, message=message_body, delivery_date=delivery_date)
@@ -51,15 +63,17 @@ def send_actual_email(to, subject, body):
     msg = EmailMessage()
     msg.set_content(body)
     msg['Subject'] = subject
-    msg['From'] = "your_email@gmail.com"  # Set your email here
+    msg['From'] = "futuremail52@gmail.com"  # Set your email here
     msg['To'] = to
 
     # Login to your email server and send the email
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)  # Using Gmail as an example
-    server.login("your_email@gmail.com", "your_password")  # Use environment variables for real usage
+    server.login("futuremail52@gmail.com", email_password)  # Use environment variables for real usage
     server.send_message(msg)
     server.quit()
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
+
